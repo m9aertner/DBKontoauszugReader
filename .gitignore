@@ -1,0 +1,13 @@
+# Ignore Gradle project-specific cache directory
+.gradle
+gradle/wrapper
+
+# Ignore Gradle build output directory
+build
+app/.classpath
+app/.project
+app/.settings/org.eclipse.buildship.core.prefs
+app/.settings/org.eclipse.jdt.core.prefs
+app/bin
+app/build
+
