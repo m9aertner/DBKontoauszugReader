@@ -18,7 +18,7 @@ Having them in textual JSON representation allows to post-process them using JSO
 * Java JRE / JDK
 * Apache PDFBox https://pdfbox.apache.org/
 * A valuable hint on StackOverflow to make PDFBox decode these (broken) PDFs properly: https://stackoverflow.com/a/45922162/1037626
-* Builds using Gradle, but since it's only one file and a handfulf of JARs, you could probably build this by hand as well.
+* Builds using Gradle, but since it's only one file and a handful of JARs, you could probably build this by hand as well.
 * Note: I am using Java 11 currently. YMMV with other versions, I guess anything beyond Java 8 including should work.
 
 # Synopsis
@@ -50,19 +50,22 @@ Having them in textual JSON representation allows to post-process them using JSO
 
 Build using gradlew. Or use Eclipse. Or use IDEA. Or just "javac".
 
-I've just set up a small shell script / batch file that sets up the JARs a, then does the conversions for __my__ (private) folder structures as required.
+I've just set up a small shell script / batch file that sets up the JARs, then does the conversions for __my__ (private) folder structures as required.
 
 If you're more into Gradle, use the "distZip" mechanism to create a "distribution". For small ad-hoc stuff like this, I did not bother.
 
-    SET CLASSPATH=C:\...\DBKontoauszugReader\app\bin\main
-    SET CLASSPATH=%CLASSPATH%;C:\Users\...\.gradle\caches\modules-2\files-2.1\commons-logging\commons-logging\1.2\4bfc12adfe4842bf07b657f0369c4cb522955686\commons-logging-1.2.jar
-    SET CLASSPATH=%CLASSPATH%;C:\Users\...\.gradle\caches\modules-2\files-2.1\org.apache.pdfbox\fontbox\2.0.23\1a6b960dd2c1b1f8a5f5d6668b2930b50ff4324d\fontbox-2.0.23.jar
-    SET CLASSPATH=%CLASSPATH%;C:\Users\...\.gradle\caches\modules-2\files-2.1\org.hamcrest\hamcrest-core\1.3\42a25dc3219429f0e5d060061f71acb49bf010a0\hamcrest-core-1.3.jar
-    SET CLASSPATH=%CLASSPATH%;C:\Users\...\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-annotations\2.12.2\a770cc4c0a1fb0bfd8a150a6a0004e42bc99fca\jackson-annotations-2.12.2.jar
-    SET CLASSPATH=%CLASSPATH%;C:\Users\...\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-core\2.12.2\8df50138521d05561a308ec2799cc8dda20c06df\jackson-core-2.12.2.jar
-    SET CLASSPATH=%CLASSPATH%;C:\Users\...\.gradle\caches\modules-2\files-2.1\com.fasterxml.jackson.core\jackson-databind\2.12.2\5f9d79e09ebf5d54a46e9f4543924cf7ae7654e0\jackson-databind-2.12.2.jar
-    SET CLASSPATH=%CLASSPATH%;C:\Users\...\.gradle\caches\modules-2\files-2.1\junit\junit\4.13.1\cdd00374f1fee76b11e2a9d127405aa3f6be5b6a\junit-4.13.1.jar
-    SET CLASSPATH=%CLASSPATH%;C:\Users\...\.gradle\caches\modules-2\files-2.1\org.apache.pdfbox\pdfbox\2.0.23\b89643d162c4e30b4fe39cfa265546cc506d4d18\pdfbox-2.0.23.jar
+    SET DBKR_DIR=C:\...\DBKontoauszugReader
+    SET GRADLE_CACHE_DIR=C:\Users\...\.gradle\caches\modules-2\files-2.1
+    
+    SET CLASSPATH=%DBKR_DIR%\app\bin\main
+    SET CLASSPATH=%CLASSPATH%;%GRADLE_CACHE_DIR%\commons-logging\commons-logging\1.2\4bfc12adfe4842bf07b657f0369c4cb522955686\commons-logging-1.2.jar
+    SET CLASSPATH=%CLASSPATH%;%GRADLE_CACHE_DIR%\org.apache.pdfbox\fontbox\2.0.23\1a6b960dd2c1b1f8a5f5d6668b2930b50ff4324d\fontbox-2.0.23.jar
+    SET CLASSPATH=%CLASSPATH%;%GRADLE_CACHE_DIR%\org.hamcrest\hamcrest-core\1.3\42a25dc3219429f0e5d060061f71acb49bf010a0\hamcrest-core-1.3.jar
+    SET CLASSPATH=%CLASSPATH%;%GRADLE_CACHE_DIR%\com.fasterxml.jackson.core\jackson-annotations\2.12.2\a770cc4c0a1fb0bfd8a150a6a0004e42bc99fca\jackson-annotations-2.12.2.jar
+    SET CLASSPATH=%CLASSPATH%;%GRADLE_CACHE_DIR%\com.fasterxml.jackson.core\jackson-core\2.12.2\8df50138521d05561a308ec2799cc8dda20c06df\jackson-core-2.12.2.jar
+    SET CLASSPATH=%CLASSPATH%;%GRADLE_CACHE_DIR%\com.fasterxml.jackson.core\jackson-databind\2.12.2\5f9d79e09ebf5d54a46e9f4543924cf7ae7654e0\jackson-databind-2.12.2.jar
+    SET CLASSPATH=%CLASSPATH%;%GRADLE_CACHE_DIR%\junit\junit\4.13.1\cdd00374f1fee76b11e2a9d127405aa3f6be5b6a\junit-4.13.1.jar
+    SET CLASSPATH=%CLASSPATH%;%GRADLE_CACHE_DIR%\org.apache.pdfbox\pdfbox\2.0.23\b89643d162c4e30b4fe39cfa265546cc506d4d18\pdfbox-2.0.23.jar
 
 # Input
 
