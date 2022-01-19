@@ -117,6 +117,9 @@ public class DBKontoauszugReader {
 	// and -o
 	protected boolean jsonMode = false;
 
+	// -bl: create one JSON line per booking line (not with -d, -j)
+	protected boolean lineMode = false;
+
 	// -m: default day level = true, use with -d
 	protected boolean month = false;
 
@@ -166,6 +169,9 @@ public class DBKontoauszugReader {
 				if (month && baseDir == null) {
 					throw new IllegalArgumentException("Month flag -m can only be used with output directory -d.");
 				}
+				if (jsonMode && lineMode) {
+					throw new IllegalArgumentException("Json mode cannot output booking lines currently (-bl).");
+				}
 				options = false;
 				handleArgument(arg);
 			}
@@ -195,6 +201,8 @@ public class DBKontoauszugReader {
 			verbose = true;
 		} else if ("-j".equals(arg)) {
 			jsonMode = true;
+		} else if ("-bl".equals(arg)) {
+			lineMode = true;
 		} else if ("-u".equals(arg)) {
 			update = true;
 		} else if ("-m".equals(arg)) {
@@ -504,13 +512,19 @@ public class DBKontoauszugReader {
 					}
 				}
 			}
-		} else {
-			if (n > 0) {
-				// Empty line between files
-				out.print("\n");
-				n += b.lines.size();
+		} else if (lineMode) {
+			n += b.lines.size();
+			for (int i = 0; i < b.lines.size(); i++) {
+				BookingLine bl = b.lines.get(i);
+				bl.pdfName = b.pdfFile.getName();
+				bl.pdfLine = String.valueOf(i);
+				String json = writer.writeValueAsString(bl);
+				out.println(json);
 			}
-			writer.writeValue(out, b);
+		} else {
+			n += b.lines.size();
+			String json = writer.writeValueAsString(b);
+			out.println(json);
 		}
 	}
 

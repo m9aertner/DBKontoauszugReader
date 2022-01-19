@@ -33,6 +33,7 @@ Having them in textual JSON representation allows to post-process them using JSO
       -j             JSON mode. Put a *.json file next to any input *.pdf file, with all the bookings
                      from that PDF in one JSON.
       -1             JSON single-line mode. Default is to pretty-print the generated JSON.
+      -bl            JSON booking-line mode. Implicit with -d. Does not work with -j currently.
       -o             Output file mode. Send all JSONs to this output file. Default is stdout.
       -d             Directory mode. Create a YYYY/MM/DD folder and put each booking line into its own
                      numbered JSON file there.
