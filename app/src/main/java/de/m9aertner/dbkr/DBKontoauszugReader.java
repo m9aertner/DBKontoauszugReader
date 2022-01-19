@@ -54,7 +54,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
 /**
- * Simply application of Apache PDFBox PDF decoder framework to decode Deutsche
+ * Simple application of Apache PDFBox PDF decoder framework to decode Deutsche
  * Bank Kontoauszüge (bank statements) into machine-readable JSON documents.
  *
  * This is a command line application.
@@ -89,7 +89,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
  */
 public class DBKontoauszugReader {
 
-	public static final String VERSION = "1.0.0";
+	public static final String VERSION = "1.1.0";
 
 	// default output stream, ignored with -d
 	protected PrintStream out = null;
@@ -560,11 +560,11 @@ public class DBKontoauszugReader {
 	public static class BookingLine {
 		public String pdfName;
 		public String pdfLine;
-		private String buchung;
-		private String valuta;
+		private String buchung;    // e.g. "02.01.2018"
+		private String valuta;     // e.g. "29.12.2017"
 		private String text;
-		private String amountTxt;
-		private BigDecimal amount;
+		private String amountTxt;  // e.g. "- 600,00"
+		private BigDecimal amount; // e.g. -60000
 
 		public String getBuchung() {
 			return buchung;
@@ -608,16 +608,19 @@ public class DBKontoauszugReader {
 		}
 
 		protected String toFullDate(String dt4, Booking b) {
-			// This will not be accurate for bank statements that span calendar years.
+			// This will not be accurate for bank statements that span more than 11 months.
 			// I do not have any like that, though.
-			return dt4 + b.from.substring(6);
+			String dt_month = dt4.substring(3); // e.g. "02." for "22.02."
+			String from_month = b.from.substring(3, 6); // e.g. "12." for "29.12.2021"
+			String yr = (from_month.compareTo(dt_month) <= 0) ? b.from.substring(6) : b.to.substring(6);
+			return dt4 + yr;
 		}
 	}
 
 	public static class Booking {
-		public File pdfFile;
-		public String from;
-		public String to;
+		public File pdfFile; 
+		public String from;  // e.g. "30.12.2017"
+		public String to;    // e.g. "31.01.2018"
 		public List<BookingLine> lines = new ArrayList<>();
 	}
 }
